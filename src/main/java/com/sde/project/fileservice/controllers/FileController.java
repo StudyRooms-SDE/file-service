@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
 
 import java.util.List;
 
@@ -26,12 +25,19 @@ public class FileController {
         fileService.uploadFile(file, sessionId);
     }
 
-    @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public List<FileResponse> getFiles(@RequestParam("sessionId") String sessionId) {
         List<File> files = fileService.getFiles(sessionId);
         return files.stream()
-                .map(file -> new FileResponse(file.getName(), file.getUrl()))
+                .map(file -> new FileResponse(file.getId(), file.getName(), file.getUrl()))
                 .toList();
     }
+
+    @GetMapping(path = "/{id}/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public byte[] downloadFile(@PathVariable("id") String id) {
+        return fileService.downloadFile(id);
+    }
+
 }

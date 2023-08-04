@@ -2,6 +2,7 @@ package com.sde.project.fileservice.services;
 
 import com.sde.project.fileservice.models.responses.FileApiErrorResponse;
 import com.sde.project.fileservice.models.responses.FileApiResponse;
+import com.sde.project.fileservice.models.tables.File;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.service.connection.ConnectionDetailsNotFoundException;
 import org.springframework.http.HttpHeaders;
@@ -14,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URI;
+import java.util.Objects;
 
 @Service
 public class StorageService {
@@ -22,11 +24,13 @@ public class StorageService {
 
     @Value("${account.id}")
     private String accountId;
-    private final String basePath = "https://api.upload.io";
 
 
     public FileApiResponse uploadFile(MultipartFile file){
-        String url = basePath + "/v2/accounts/" + accountId+ "/uploads/binary";
+        if (Objects.requireNonNull(file.getOriginalFilename()).contains("/")){
+            throw new IllegalArgumentException("File name cannot contain /");
+        }
+        String url = "https://api.upload.io/v2/accounts/" + accountId+ "/uploads/binary?folderPath=/uploads&fileName=" + file.getOriginalFilename();
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -39,7 +43,17 @@ public class StorageService {
             return response.getBody();
         } catch (HttpClientErrorException.BadRequest e) {
             FileApiErrorResponse errorResponse = e.getResponseBodyAs(FileApiErrorResponse.class);
-            throw new ConnectionDetailsNotFoundException(errorResponse.error().message());
+            throw new ConnectionDetailsNotFoundException(errorResponse != null ? errorResponse.error().message() : "File upload failed");
         }
+    }
+
+    public byte[] downloadFile(File file) {
+        String url = String.format("https://upcdn.io/%s/raw%s", accountId, file.getPath());
+        RestTemplate restTemplate = new RestTemplate();
+
+        ResponseEntity<byte[]> response = restTemplate.getForEntity(url, byte[].class);
+        return response.getBody();
+
+
     }
 }

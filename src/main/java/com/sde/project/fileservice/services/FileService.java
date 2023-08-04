@@ -3,6 +3,7 @@ package com.sde.project.fileservice.services;
 import com.sde.project.fileservice.models.responses.FileApiResponse;
 import com.sde.project.fileservice.models.tables.File;
 import com.sde.project.fileservice.repositories.FileRepository;
+import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,10 +27,19 @@ public class FileService {
         fileRepository.save(new File(
                 file.getOriginalFilename(),
                 fileApiResponse.fileUrl(),
+                fileApiResponse.filePath(),
                 UUID.fromString(sessionId)));
     }
 
     public List<File> getFiles(String sessionId) {
         return fileRepository.findAllBySessionId(UUID.fromString(sessionId));
+    }
+
+
+    public byte[] downloadFile(String id) {
+        File file = fileRepository.findById(UUID.fromString(id))
+                .orElseThrow(() -> new DataRetrievalFailureException("File not found"));
+
+        return storageService.downloadFile(file);
     }
 }

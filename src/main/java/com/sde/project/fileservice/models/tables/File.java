@@ -19,10 +19,14 @@ public class File {
     @Column(name = "session_id", nullable = false)
     private  UUID sessionId;
 
+    @Column(name = "path", nullable = false)
+    private  String path;
 
-    public File(String name, String url, UUID sessionId) {
+
+    public File(String name, String url, String path, UUID sessionId) {
         this.name = name;
         this.url = url;
+        this.path = path;
         this.sessionId = sessionId;
     }
 
@@ -59,5 +63,13 @@ public class File {
 
     public void setSessionId(UUID sessionId) {
         this.sessionId = sessionId;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 }
