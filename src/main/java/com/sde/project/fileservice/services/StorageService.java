@@ -1,6 +1,5 @@
 package com.sde.project.fileservice.services;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sde.project.fileservice.models.responses.FileApiErrorResponse;
 import com.sde.project.fileservice.models.responses.FileApiResponse;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,14 +10,10 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class StorageService {
@@ -44,7 +39,7 @@ public class StorageService {
             return response.getBody();
         } catch (HttpClientErrorException.BadRequest e) {
             FileApiErrorResponse errorResponse = e.getResponseBodyAs(FileApiErrorResponse.class);
-            throw new RuntimeException(errorResponse.error().message());
+            throw new ConnectionDetailsNotFoundException(errorResponse.error().message());
         }
     }
 }

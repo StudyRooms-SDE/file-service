@@ -6,6 +6,7 @@ import com.sde.project.fileservice.repositories.FileRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -26,5 +27,9 @@ public class FileService {
                 file.getOriginalFilename(),
                 fileApiResponse.fileUrl(),
                 UUID.fromString(sessionId)));
+    }
+
+    public List<File> getFiles(String sessionId) {
+        return fileRepository.findAllBySessionId(UUID.fromString(sessionId));
     }
 }
