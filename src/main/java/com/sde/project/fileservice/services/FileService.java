@@ -42,4 +42,12 @@ public class FileService {
 
         return storageService.downloadFile(file);
     }
+
+    public void deleteFile(String id) {
+        File file = fileRepository.findById(UUID.fromString(id))
+                .orElseThrow(() -> new DataRetrievalFailureException("File not found"));
+
+        storageService.deleteFile(file);
+        fileRepository.delete(file);
+    }
 }

@@ -1,4 +1,4 @@
-package com.sde.project.fileservice;
+package com.sde.project.fileservice.configurations;
 
 import com.sde.project.fileservice.models.responses.ExceptionResponse;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;

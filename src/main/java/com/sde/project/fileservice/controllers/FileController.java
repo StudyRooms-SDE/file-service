@@ -40,4 +40,9 @@ public class FileController {
         return fileService.downloadFile(id);
     }
 
+    @DeleteMapping(path = "/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteFile(@PathVariable("id") String id) {
+        fileService.deleteFile(id);
+    }
 }
