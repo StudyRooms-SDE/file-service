@@ -15,6 +15,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Random;
 
 @Service
 public class StorageService {
@@ -35,7 +36,8 @@ public class StorageService {
         if (Objects.requireNonNull(file.getOriginalFilename()).contains("/")){
             throw new IllegalArgumentException("File name cannot contain /");
         }
-        String url = "https://api.upload.io/v2/accounts/" + accountId+ "/uploads/binary?folderPath=/uploads&fileName=" + file.getOriginalFilename();
+        Random random = new Random();
+        String url = "https://api.upload.io/v2/accounts/" + accountId+ "/uploads/binary?folderPath=/uploads&fileName=" + file.getOriginalFilename() + random.nextInt(100);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + apiKey);
@@ -76,6 +78,23 @@ public class StorageService {
             FileApiErrorResponse errorResponse = e.getResponseBodyAs(FileApiErrorResponse.class);
             throw new ConnectionDetailsNotFoundException(errorResponse != null ? errorResponse.error().message() : "File deletion failed");
         }
+    }
 
+    public void deleteSessionFiles(List<File> files) {
+        String url = String.format( "https://api.bytescale.com/v2/accounts/%s/files/batch", accountId);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + apiKey);
+        headers.add("Content-Type", "application/json");
+
+        Map<String, List<String>> body = Map.of("files", files.stream().map(File::getPath).toList());
+        HttpEntity<?> request = new HttpEntity<>( body, headers);
+
+        try {
+            restTemplate.exchange(url, HttpMethod.DELETE, request, Object.class);
+        } catch (HttpClientErrorException.BadRequest e) {
+            FileApiErrorResponse errorResponse = e.getResponseBodyAs(FileApiErrorResponse.class);
+            throw new ConnectionDetailsNotFoundException(errorResponse != null ? errorResponse.error().message() : "Session files deletion failed");
+        }
     }
 }

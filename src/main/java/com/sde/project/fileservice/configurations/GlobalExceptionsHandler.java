@@ -50,7 +50,7 @@ public class GlobalExceptionsHandler extends ResponseEntityExceptionHandler {
                 ex.getMessage(),
                 request.getDescription(false));
 
-        return new ResponseEntity<>(responseBody, new HttpHeaders(), HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(responseBody, new HttpHeaders(), HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(value = {DataRetrievalFailureException.class})
@@ -76,7 +76,7 @@ public class GlobalExceptionsHandler extends ResponseEntityExceptionHandler {
                 ex.getMessage(),
                 request.getDescription(false));
 
-        return new ResponseEntity<>(responseBody, new HttpHeaders(), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(responseBody, new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(value = {ConnectionDetailsNotFoundException.class})

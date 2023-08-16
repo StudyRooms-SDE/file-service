@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/files")
@@ -44,5 +45,11 @@ public class FileController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteFile(@PathVariable("id") String id) {
         fileService.deleteFile(id);
+    }
+
+    @DeleteMapping()
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteSessionFiles(@RequestParam("sessionId") String sessionId) {
+        fileService.deleteSessionFiles(UUID.fromString(sessionId));
     }
 }

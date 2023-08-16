@@ -50,4 +50,11 @@ public class FileService {
         storageService.deleteFile(file);
         fileRepository.delete(file);
     }
+
+    public void deleteSessionFiles(UUID sessionId) {
+        List<File> files = fileRepository.findAllBySessionId(sessionId);
+        storageService.deleteSessionFiles(files);
+        fileRepository.deleteAll(files);
+
+    }
 }
