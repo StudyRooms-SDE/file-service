@@ -53,6 +53,9 @@ public class FileService {
 
     public void deleteSessionFiles(UUID sessionId) {
         List<File> files = fileRepository.findAllBySessionId(sessionId);
+        if (files.isEmpty()) {
+            return;
+        }
         storageService.deleteSessionFiles(files);
         fileRepository.deleteAll(files);
 
