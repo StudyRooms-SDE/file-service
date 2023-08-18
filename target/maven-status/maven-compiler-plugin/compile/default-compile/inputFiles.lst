@@ -1,0 +1,14 @@
+/home/manuela/Universita/Magistrale/I_semestre/SDE/Project/file-service/src/main/java/com/sde/project/fileservice/controllers/FileController.java
+/home/manuela/Universita/Magistrale/I_semestre/SDE/Project/file-service/src/main/java/com/sde/project/fileservice/models/responses/FileResponse.java
+/home/manuela/Universita/Magistrale/I_semestre/SDE/Project/file-service/src/main/java/com/sde/project/fileservice/FileServiceApplication.java
+/home/manuela/Universita/Magistrale/I_semestre/SDE/Project/file-service/src/main/java/com/sde/project/fileservice/services/StorageService.java
+/home/manuela/Universita/Magistrale/I_semestre/SDE/Project/file-service/src/main/java/com/sde/project/fileservice/repositories/FileRepository.java
+/home/manuela/Universita/Magistrale/I_semestre/SDE/Project/file-service/src/main/java/com/sde/project/fileservice/configurations/security/SecurityConfig.java
+/home/manuela/Universita/Magistrale/I_semestre/SDE/Project/file-service/src/main/java/com/sde/project/fileservice/services/FileService.java
+/home/manuela/Universita/Magistrale/I_semestre/SDE/Project/file-service/src/main/java/com/sde/project/fileservice/models/tables/File.java
+/home/manuela/Universita/Magistrale/I_semestre/SDE/Project/file-service/src/main/java/com/sde/project/fileservice/configurations/GlobalExceptionsHandler.java
+/home/manuela/Universita/Magistrale/I_semestre/SDE/Project/file-service/src/main/java/com/sde/project/fileservice/models/responses/FileApiErrorResponse.java
+/home/manuela/Universita/Magistrale/I_semestre/SDE/Project/file-service/src/main/java/com/sde/project/fileservice/models/responses/FileApiResponse.java
+/home/manuela/Universita/Magistrale/I_semestre/SDE/Project/file-service/src/main/java/com/sde/project/fileservice/models/responses/ExceptionResponse.java
+/home/manuela/Universita/Magistrale/I_semestre/SDE/Project/file-service/src/main/java/com/sde/project/fileservice/configurations/MyConfig.java
+/home/manuela/Universita/Magistrale/I_semestre/SDE/Project/file-service/src/main/java/com/sde/project/fileservice/configurations/security/RequestHeaderAuthenticationProvider.java
